@@ -1,0 +1,21 @@
+=border-radius($radius)
+  -webkit-border-radius: $radius
+  -moz-border-radius:    $radius
+  -ms-border-radius:     $radius
+  border-radius:         $radius
+
+.txt-color
+  color: aqua
+  padding: 10px
+
+div
+  h4
+    text-decoration: underline
+  li
+    text-decoration: none
+    a
+      @extend .txt-color
+      background-color: beige
+      +border-radius(10px)
+    span
+      @extend .txt-color
