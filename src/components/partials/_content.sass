@@ -4,9 +4,15 @@
   -ms-border-radius:     $radius
   border-radius:         $radius
 
-.txt-color
+.txt-style
   color: aqua
   padding: 10px
+
+.error
+  color: red
+
+.warning
+  color: yellow
 
 div
   h4
@@ -14,8 +20,8 @@ div
   li
     text-decoration: none
     a
-      @extend .txt-color
+      @extend .txt-style
       background-color: beige
       +border-radius(10px)
     span
-      @extend .txt-color
+      @extend .txt-style
