@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import HM from './Helmet';
 import './Home.sass';
 
 class Home extends Component {
@@ -10,11 +11,12 @@ class Home extends Component {
     };
   }
   componentDidMount() {
-    document.title = 'Home';
+    // document.title = 'Home';
   }
   render() {
     return (
       <div>
+        {HM('home')}
         <div>
           <h1>
             <Link to="/">csiejoey</Link>

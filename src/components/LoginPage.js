@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import HM from './Helmet';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -9,11 +10,12 @@ class LoginPage extends Component {
     };
   }
   componentDidMount() {
-    document.title = 'login';
+    // document.title = 'login';
   }
   render() {
     return (
       <div>
+        {HM('login')}
         <div>
           <h1>
             <Link to="/">login first</Link>
