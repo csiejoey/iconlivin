@@ -31,7 +31,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       filename: 'index.html',
-      title: 'sasstify',
+      title: 'taitle',
       template: './src/template.html',
     }),
     new webpack.HotModuleReplacementPlugin(),

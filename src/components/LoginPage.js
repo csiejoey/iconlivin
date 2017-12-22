@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './Home.sass';
 
-class Home extends Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,29 +9,23 @@ class Home extends Component {
     };
   }
   componentDidMount() {
-    document.title = 'Home';
+    document.title = 'login';
   }
   render() {
     return (
       <div>
         <div>
           <h1>
-            <Link to="/">csiejoey</Link>
+            <Link to="/">login first</Link>
           </h1>
         </div>
         <div>
-          <h4>coachers.sass</h4>
+          <h4>coachers.title = login</h4>
           <li>
-            <Link to="/login">fb</Link>
+            <a>fb</a>
           </li>
           <li>
             <a>ins</a>
-          </li>
-          <li>
-            <span className="error">error</span>
-          </li>
-          <li>
-            <span className="warning">warning</span>
           </li>
         </div>
       </div>
@@ -40,4 +33,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default LoginPage;
