@@ -1,14 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 module.exports = {
   entry: [
-    // 'webpack/hot/dev-server',
-    'webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr&reload=true',
     './src/index.js',
   ],
-  devtool: 'eval-source-map',
   output: {
     filename: '[hash].bundle.js',
     path: path.join(__dirname, 'public'),
@@ -29,6 +27,21 @@ module.exports = {
     ],
   },
   plugins: [
+    new WebpackCleanupPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"',
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        drop_console: true,
+        drop_debugger: true,
+      },
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(true),
     new HTMLWebpackPlugin({
       filename: 'index.html',
       title: 'buildin (dev)',
@@ -36,6 +49,5 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
   ],
 };

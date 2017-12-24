@@ -4,8 +4,8 @@ import Helmet from 'react-helmet';
 const HM = t => (
   <div>
     <Helmet
-      defaultTitle="Taitle"
-      titleTemplate="Taitle | %s"
+      defaultTitle="Buildin'"
+      titleTemplate="Buildin' | %s"
     >
       <title>{t}</title>
     </Helmet>
