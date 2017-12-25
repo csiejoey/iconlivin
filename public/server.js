@@ -67,13 +67,13 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("webpack");
+module.exports = require("path");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("webpack");
 
 /***/ }),
 /* 2 */
@@ -83,37 +83,44 @@ module.exports = require("path");
 
 
 const express = __webpack_require__(3);
-const webpack = __webpack_require__(0);
+const path = __webpack_require__(0);
 const WebpackDevMiddleware = __webpack_require__(4);
 const WebpackHotMiddleware = __webpack_require__(5);
-const path = __webpack_require__(1);
+const webpack = __webpack_require__(1);
 const config = __webpack_require__(6);
 
 const port = 8080;
 
 const app = express();
 const router = express.Router();
-
 const compiler = webpack(config);
 
-app.use(WebpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-  stats: { colors: true }
-}));
+if (process.env.NODE_ENV === 'dev') {
+  app.use(WebpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+    stats: { colors: true }
+  }));
+  app.use(WebpackHotMiddleware(compiler, {
+    log: console.log
+  }));
+  router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+  });
+} else {
+  console.log(process.env.NODE_ENV); // defineplugin not working
+  router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+}
 
-app.use(WebpackHotMiddleware(compiler, {
-  log: console.log
-}));
-
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
 app.use(router);
 
 app.use((err, req, res, next) => {
   res.status(422).send({ error: err.message });
   next();
 });
+
+app.use(express.static('public'));
 
 app.listen(port, () => console.log(`listening on ${port}`));
 
@@ -142,8 +149,8 @@ module.exports = require("webpack-hot-middleware");
 "use strict";
 
 
-const path = __webpack_require__(1);
-const webpack = __webpack_require__(0);
+const path = __webpack_require__(0);
+const webpack = __webpack_require__(1);
 const HTMLWebpackPlugin = __webpack_require__(7);
 
 module.exports = {
@@ -169,7 +176,7 @@ module.exports = {
   },
   plugins: [new HTMLWebpackPlugin({
     filename: 'index.html',
-    title: 'buildin (dev)',
+    title: 'iconic (dev)',
     template: './src/template.html'
   }), new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.OccurrenceOrderPlugin()]
 };

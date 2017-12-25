@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -44,10 +45,14 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new HTMLWebpackPlugin({
       filename: 'index.html',
-      title: 'buildin (dev)',
+      title: 'iconic (prod)',
       template: './src/template.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new CopyWebpackPlugin([
+      { from: 'src/assets/favicon.ico' },
+      { from: 'src/assets/favicon.gif' },
+    ]),
   ],
 };

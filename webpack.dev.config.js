@@ -31,7 +31,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       filename: 'index.html',
-      title: 'buildin (dev)',
+      title: 'iconic (dev)',
       template: './src/template.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
