@@ -1,7 +1,7 @@
 {
-  "name": "buildin",
+  "name": "iconlivin",
   "version": "1.0.0",
-  "description": "title practice",
+  "description": "favicon practice",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=dev node server/server.js",
