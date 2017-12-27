@@ -67,13 +67,13 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("webpack");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("webpack");
+module.exports = require("path");
 
 /***/ }),
 /* 2 */
@@ -83,10 +83,10 @@ module.exports = require("webpack");
 
 
 const express = __webpack_require__(3);
-const path = __webpack_require__(0);
+const path = __webpack_require__(1);
 const WebpackDevMiddleware = __webpack_require__(4);
 const WebpackHotMiddleware = __webpack_require__(5);
-const webpack = __webpack_require__(1);
+const webpack = __webpack_require__(0);
 const config = __webpack_require__(6);
 
 const port = 8080;
@@ -149,40 +149,71 @@ module.exports = require("webpack-hot-middleware");
 "use strict";
 
 
-const path = __webpack_require__(0);
-const webpack = __webpack_require__(1);
-const HTMLWebpackPlugin = __webpack_require__(7);
+const merge = __webpack_require__(7);
+const common = __webpack_require__(8);
+const webpack = __webpack_require__(0);
+const HTMLWebpackPlugin = __webpack_require__(10);
 
-module.exports = {
+module.exports = merge(common, {
   entry: [
   // 'webpack/hot/dev-server',
   'webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr&reload=true', './src/index.js'],
   devtool: 'eval-source-map',
+  plugins: [new HTMLWebpackPlugin({
+    filename: 'index.html',
+    title: 'iconic (dev)',
+    template: './src/template.html'
+  }), new webpack.HotModuleReplacementPlugin()]
+});
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("webpack-merge");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const path = __webpack_require__(1);
+const webpack = __webpack_require__(0);
+const loaders = __webpack_require__(9);
+
+module.exports = {
   output: {
     filename: '[hash].bundle.js',
     path: path.join(__dirname, 'public'),
     publicPath: '/'
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/
-    }, {
-      test: /\.sass$/,
-      loader: ['style-loader', 'css-loader', 'sass-loader'],
-      exclude: /node_modules/
-    }]
+    loaders
   },
-  plugins: [new HTMLWebpackPlugin({
-    filename: 'index.html',
-    title: 'iconic (dev)',
-    template: './src/template.html'
-  }), new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.OccurrenceOrderPlugin()]
+  plugins: [new webpack.optimize.OccurrenceOrderPlugin(true), new webpack.NoEmitOnErrorsPlugin()]
 };
 
 /***/ }),
-/* 7 */
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = [{
+  test: /\.js$/,
+  loader: 'babel-loader',
+  exclude: /node_modules/
+}, {
+  test: /\.sass$/,
+  loader: ['style-loader', 'css-loader', 'sass-loader'],
+  exclude: /node_modules/
+}];
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("html-webpack-plugin");

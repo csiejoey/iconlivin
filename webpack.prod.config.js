@@ -1,32 +1,14 @@
-const path = require('path');
+const merge = require('webpack-merge');
+const common = require('./webpack.common.config');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
+module.exports = merge(common, {
   entry: [
     './src/index.js',
   ],
-  output: {
-    filename: '[hash].bundle.js',
-    path: path.join(__dirname, 'public'),
-    publicPath: '/',
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.sass$/,
-        loader: ['style-loader', 'css-loader', 'sass-loader'],
-        exclude: /node_modules/,
-      },
-    ],
-  },
   plugins: [
     new WebpackCleanupPlugin(),
     new webpack.DefinePlugin({
@@ -42,17 +24,15 @@ module.exports = {
         drop_debugger: true,
       },
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
     new HTMLWebpackPlugin({
       filename: 'index.html',
       title: 'iconic (prod)',
       template: './src/template.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new CopyWebpackPlugin([
       { from: 'src/assets/favicon.ico' },
       { from: 'src/assets/favicon.gif' },
     ]),
   ],
-};
+});
